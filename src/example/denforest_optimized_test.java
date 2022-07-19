@@ -6,13 +6,13 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import denforest.DenForest;
+import denforest.DenForestStrided;
 import denforest.datapoint.DataPoint;
 import denforest.datapoint.Timestamp;
 
 
 
-public class denforest_test {
+public class denforest_optimized_test {
 	static String path;	
 	static BufferedReader br = null;
 	static String[] nnames = null;
@@ -34,13 +34,14 @@ public class denforest_test {
 		window =  Integer.parseInt(args[4]); // window size
 		stride =  Integer.parseInt(args[5]);  // stride size
 		slide = Integer.parseInt(args[6]); // #slide 
+		String filename = args[7];	
 
 		
-		System.out.println("[Example.Denforest] Run DenForest...");
-		System.out.print("[Example.Denforest] Read the dataset...");
+		System.out.println("[Example.DenforestOpt] Run DenForest...");
+		System.out.print("[Example.DenforestOpt] Read the dataset...");
 
 		
-		System.out.println("[Example.Denforest] Load Data");
+		System.out.println("[Example.DenforestOpt] Load Data");
 		
 		
 		List<DataPoint> dataset =  load_data(option); 
@@ -48,42 +49,42 @@ public class denforest_test {
 
 		
 		Timestamp time = new Timestamp(); // current time -  window_size ; ex) starting from zero; 	
-		DenForest denforest = new DenForest(dim, peps, pminpts, time); // DenForest
+		DenForestStrided batch_optimized_denforest = new DenForestStrided(dim, peps, pminpts, time); // DenForest
 		
-		System.out.println("[Example.Denforest] Fill the initial window...");
+		System.out.println("[Example.DenforestOpt] Fill the initial window...");
 		
 		
 		// Fill the window by stride
 		for( int i = 0 ; i < window ; i+=stride)
 		{
 			List<DataPoint> in = dataset.subList(i,i+stride);
-			denforest.batch_insert(in);		// insert multiple points in the stride
+			batch_optimized_denforest.batch_insert(in);;		// insert multiple points in the stride (batch_optimized_insert)
 		}
 		
 			
-		System.out.println("[Example.Denforest] Update the strides...");
+		System.out.println("[Example.DenforestOpt] Update the strides...");
 				
 			
 		for( int i = 0 ; i < stride*slide ; i+=stride)
 		{
 			
 			List<DataPoint> out = dataset.subList(i,i+stride); // old data points
-			denforest.batch_delete(out);  // delete multiple points in the stride
+			batch_optimized_denforest.batch_delete(out);  // delete multiple points in the stride (batch_optimized_delete)
 			
 			time.increment(); // increment time
 			
 			List<DataPoint> in = dataset.subList(window+i,window+i+stride);  // new data points
-			denforest.batch_insert(in);  // insert multiple points in the stride
+			batch_optimized_denforest.batch_insert(in);  // insert multiple points in the stride  (batch_optimized_insert)
 			
 		}
 		
-		System.out.println("[Example.Denforest] Complete!");
-
+		System.out.println("[Example.DenforestOpt] Complete!");
+		
+		
 		
 		// Produce clustering result
 		for(DataPoint p : dataset.subList(stride*slide,window+stride*slide)) p.label=-1;
-		int resDenForest[]  = denforest.labelAndReturn(dataset.subList(stride*slide,window+stride*slide)); //DenForest's clustering result; 
-			
+		int resDenForest[]  = batch_optimized_denforest.labelAndReturn(); // DenForest's clustering result;
 		
 		
 				
@@ -228,3 +229,4 @@ public class denforest_test {
 	}
 
 }
+

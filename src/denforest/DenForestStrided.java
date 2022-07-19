@@ -283,6 +283,10 @@ public class DenForestStrided {
 			}
 		}
 	}
+	
+	public void batch_insert(List<DataPoint> in){
+		insert_stride(in);
+	}
 
 	public void insert_stride(List<DataPoint> in) {
 		/* Insert all points into R-tree */
@@ -477,6 +481,12 @@ public class DenForestStrided {
 		}
 
 	}
+	
+	
+	public void batch_delete(List<DataPoint> in){
+		delete_stride(in);
+	}
+
 
 	public void delete_stride(List<DataPoint> out) {
 

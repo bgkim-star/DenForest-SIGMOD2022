@@ -337,11 +337,18 @@ public class DenForest {
 
 	}
 
+	public void batch_insert(List<DataPoint> pset){
+		insert_multiple(pset);
+	}
+	
 	/**
 	 * @param pset
 	 */
 	public void insert_multiple(List<DataPoint> pset) {
 
+		
+		// Insert into the spatial index
+		
 		for (DataPoint p : pset) {
 			double[] ls = new double[dim];
 			double[] us = new double[dim];
@@ -356,26 +363,32 @@ public class DenForest {
 
 		}
 
+		// Insert data points into the clusters 
+		
 		for (DataPoint p : pset) {
 
 			Deque<DataPoint> neighbors = findNeighbors_wIndex(p);
 
-			if (neighbors.size() >= minPts) {
+			if (neighbors.size() >= minPts) { //Nostalgic core
 
 				LCNode newNode = new LCNode();
 				p.node = newNode;
 				p.node.dp = p;
-				List<DataPoint> neighbors_list = new ArrayList<DataPoint>(
-						neighbors);
-				sort(neighbors_list);
+				List<DataPoint> neighbors_list = new ArrayList<DataPoint>(neighbors);
+				
 
+				// Compute core-expriation time
+				sort(neighbors_list);
 				p.core_expired = neighbors_list.get(minPts - 1).timestamp;
 				newNode.ts = p.core_expired;
-				HashSet<DataPoint> res = expiredTable.getOrDefault(
-						p.core_expired, new HashSet<DataPoint>());
+				
+ 
+				// Record (core-expriation time, datapoint)
+				HashSet<DataPoint> res = expiredTable.getOrDefault(p.core_expired, new HashSet<DataPoint>());
 				res.add(p);
 				expiredTable.put(p.core_expired, res);
 
+				// Update DenTree
 				for (DataPoint n : neighbors_list) {
 					if (n.core_expired >= time.getTime() && n.id != p.id)// coreflag
 					{
@@ -395,8 +408,7 @@ public class DenForest {
 							n.parentIfborder = p;
 					}
 				}
-
-			} else {
+			} else { // Non-core
 				for (DataPoint n : neighbors) {
 					if (n.core_expired >= time.getTime())// coreflag
 					{
@@ -503,6 +515,11 @@ public class DenForest {
 
 	}
 
+	
+	public void batch_delete(List<DataPoint> pset){
+		delete_multiple(pset);
+	}
+	
 	public void delete_multiple(List<DataPoint> pset) {
 
 		for (DataPoint p : pset) {
