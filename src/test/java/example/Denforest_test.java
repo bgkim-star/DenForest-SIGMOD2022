@@ -29,7 +29,7 @@ public class Denforest_test {
 
 	public void run(String[] args) {
 
-		path = args[0];
+		path = args[0]; 	// path to dataset forlder (sample_dataset)
 		option = Integer.parseInt(args[1]); // select datase:  1. DTG, 2.GeoLife, 3.IRIS, 4.Household
 		int pminpts = Integer.parseInt(args[2]); // density threshold: minPts 
 		double peps = Double.parseDouble(args[3]); // distance threshold: epsilon
