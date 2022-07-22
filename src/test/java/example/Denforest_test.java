@@ -85,8 +85,8 @@ public class Denforest_test {
 		// Produce clustering result
 		for(DataPoint p : dataset.subList(stride*slide,window+stride*slide)) p.label=-1;
 		int resDenForest[]  = denforest.labelAndReturn(dataset.subList(stride*slide,window+stride*slide)); //DenForest's clustering result;
-		Set<Integer> unique =Arrays.stream(resDenForest).boxed().collect(Collectors.toSet());
-		indented_println("[Example.Denforest] #clusters: "+unique.size());
+//		Set<Integer> unique =Arrays.stream(resDenForest).boxed().collect(Collectors.toSet());
+//		indented_println("[Example.Denforest] #clusters: "+unique.size());
 
 
 
