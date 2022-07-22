@@ -14,7 +14,6 @@ import denforest.datapoint.Timestamp;
 public class Denforest_test {
 	String path;
 	BufferedReader br = null;
-	String[] nnames = null;
 	int dim;
 	int window;
 	int stride;
@@ -22,7 +21,7 @@ public class Denforest_test {
 	int option;
 	int pminpts;
 	double peps;
-	 int iter = 0;
+	int iter = 0;
 
     public void indented_println(String str){
 		System.out.println("\t"+str);
@@ -43,7 +42,7 @@ public class Denforest_test {
 		indented_println("[Example.Denforest] Read the dataset...");
 
 		
-		indented_println("[Example.Denforest] Load Data");
+		indented_println("[Example.Denforest] Load the dataset");
 		
 		
 		List<DataPoint> dataset =  load_data(option); 
@@ -121,7 +120,7 @@ public class Denforest_test {
 				dim = 2;
 				br = new BufferedReader(new FileReader(path+"/DTG_sample.csv"));
 
-				indented_println("[Example.DenforestOpt]->[DTG dataset]");
+				indented_println("[Example.Denforest]->[DTG dataset]");
 
 				for (int i = 0; i < window+stride*slide;) {
 					String result;
@@ -145,7 +144,7 @@ public class Denforest_test {
 				FileReader file = new FileReader(path+"/GeoLife_sample.csv");
 				br = new BufferedReader(file);
 
-				indented_println("[Example.DenforestOpt]->[Geolife dataset]");
+				indented_println("[Example.Denforest]->[Geolife dataset]");
 
 
 
@@ -170,7 +169,7 @@ public class Denforest_test {
 				dim = 4;
 				br = new BufferedReader(new FileReader(path+"/IRIS_sample.csv"));
 
-				indented_println("[Example.DenforestOpt]->[IRIS dataset]");
+				indented_println("[Example.Denforest]->[IRIS dataset]");
 
 
 				for (int i = 0; i < window+stride*slide;) {
@@ -199,7 +198,7 @@ public class Denforest_test {
 				dim = 7;
 				br = new BufferedReader(new FileReader(path+"/Household_sample.csv"));
 
-				indented_println("[Example.DenforestOpt]->[Household dataset]");
+				indented_println("[Example.Denforest]->[Household dataset]");
 				for (int i = 0; i < window+stride*slide;) {
 					String result;
 					if ((result = getData()) != null) {
