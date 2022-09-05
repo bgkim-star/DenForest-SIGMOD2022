@@ -1,4 +1,4 @@
-package denforest.rtree;
+package denforest.basicRtree;
 
 
 import java.util.Arrays;

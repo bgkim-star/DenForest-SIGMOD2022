@@ -11,8 +11,8 @@ import java.util.Set;
 import java.util.Collections;
 import java.util.Comparator;
 
-import denforest.rtree.Element;
-import denforest.rtree.mRtree;
+import denforest.basicRtree.Element;
+import denforest.basicRtree.BasicRtree;
 
 import java.util.HashMap;
 
@@ -25,7 +25,7 @@ public class DenForest {
 
 	LinkedList<DataPoint> dataset; // Dataset
 
-	mRtree<DataPoint> mrtree;
+	BasicRtree<DataPoint> mrtree;
 	HashMap<DataPoint, HashSet<DataPoint>> edgeTable;
 
 	LinkCutTree lct;
@@ -143,7 +143,7 @@ public class DenForest {
 		this.eps = eps;
 		this.minPts = minPts;
 		lct = new LinkCutTree();
-		mrtree = new mRtree<DataPoint>(dim, 50, 20);
+		mrtree = new BasicRtree<DataPoint>(dim, 50, 20);
 		expiredTable = new HashMap<Long, HashSet<DataPoint>>();
 		edgeTable = new HashMap<DataPoint, HashSet<DataPoint>>();
 		labels = new HashMap<Integer, Integer>();

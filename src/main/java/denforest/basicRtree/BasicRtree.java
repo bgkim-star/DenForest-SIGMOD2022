@@ -1,4 +1,4 @@
-package denforest.rtree;
+package denforest.basicRtree;
 
 import java.io.IOException;
 import java.util.ArrayDeque;
@@ -8,7 +8,7 @@ import java.util.List;
 
 
 
-public class mRtree<T> {
+public class BasicRtree<T> {
 
 	private final static int DEFAULT_MAX_NODE_ENTRIES = 50;
 	private final static int DEFAULT_MIN_NODE_ENTRIES = 20;
@@ -47,7 +47,7 @@ public class mRtree<T> {
 	public int height = 0;
 
 
-	public mRtree(int dim, int maxN, int minN) {
+	public BasicRtree(int dim, int maxN, int minN) {
 		this.dim = dim;
 		if (maxN == -1 && minN == -1) {
 
